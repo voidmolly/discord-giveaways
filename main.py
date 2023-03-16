@@ -66,7 +66,7 @@ async def on_message(message):
             # получаем список пользователей, которые оставили реакцию
             users = []
             async for user in reaction.users():
-                if not user.bot:
+                if not user.bot and not user.message.author:
                     users.append(user)
             # выбираем случайного пользователя из списка пользователей
             winner = random.choice(users)
@@ -76,8 +76,8 @@ async def on_message(message):
             bot.remove_listener(on_reaction_add)
 
     # добавляем обработчик реакций
-    bot.add_listener(on_reaction_add)
+    listener = bot.add_listener(on_reaction_add)
+
 
 # запускаем бота
 bot.run(config['token'])
-
